@@ -5,6 +5,7 @@
 int main(void)
 {
     FILE* fp;
+    FILE *optr;
     fpos_t pos;
     const char* p = "Bilgisayar";
     int id;
@@ -29,8 +30,8 @@ int main(void)
     while ((id = fgetc(fp)) != EOF) { /* Dosya sonuna kadar (EOF) karakter karakter okuma işlemi */
         printf("%c", id);
     }
-
+    
     fclose(fp);
-
+    
     return 0;
 }
