@@ -15,7 +15,7 @@ void yenileKayit(FILE*);
 void yeniKayit(FILE*);
 void silKayit(FILE*);
 
-int secimGir() {
+int secimGir(void) {
     int menuSecim;
 
     printf("\n Hangi işlemi yapacaksanız, numaralandırmayı ona göre yapınız.\n"
@@ -40,7 +40,7 @@ int main()
         printf("Dosya açılamadı, \n");
     }
     else {
-        while ((secim == secimGir()) != 5) {
+        while ((secim = secimGir()) != 5) {
             switch (secim) {
             case 1:
                 textFile(mfPtr);
@@ -101,7 +101,7 @@ void yenileKayit(FILE* fPtr) {
         printf(" %-6d %-16s %-11s %10.2f\n\n ", musteri.musNum, musteri.soyad,
             musteri.ad, musteri.balans);
         printf("Ekleme (+) veya ödeme (-) için giriniz:");
-        scanf("%lf", islem);
+        scanf("%lf", &islem);
         musteri.balans += islem;
         printf("%-6d %-16s %-11s %10.2f\n", musteri.musNum, musteri.soyad,
             musteri.ad, musteri.balans);
@@ -123,8 +123,9 @@ void silKayit(FILE* fPtr) {
     }
     else {
         fseek(fPtr, (hesapNum - 1) * sizeof(struct musData), SEEK_SET);
+        fwrite(&bosmusteri, sizeof(struct musData), 1, fPtr);
+
     }
-    fwrite(&bosmusteri, sizeof(struct musData), 1, fPtr);
 
     
 }
