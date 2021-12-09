@@ -25,7 +25,7 @@ int secimGir(void) {
         "4 - Hesap sil\n"
         "5 - Çıkış");
 
-    scanf("%d", &menuSecim);
+    (void)scanf_s("%d", &menuSecim);
 
     return menuSecim;
 
@@ -91,7 +91,7 @@ void yenileKayit(FILE* fPtr) {
     struct musData musteri = { 0, "", "", 0.0 };
 
     printf("Yenilenecek hesap no giriniz (1-100): ");
-    scanf("%d", &hesap);
+    (void)scanf_s("%d", &hesap);
     fseek(fPtr, (hesap - 1) * sizeof(struct musData), SEEK_SET);
     fread(&musteri, sizeof(struct musData), 1, fPtr);
     if (musteri.musNum == 0) {
@@ -101,7 +101,7 @@ void yenileKayit(FILE* fPtr) {
         printf(" %-6d %-16s %-11s %10.2f\n\n ", musteri.musNum, musteri.soyad,
             musteri.ad, musteri.balans);
         printf("Ekleme (+) veya ödeme (-) için giriniz:");
-        scanf("%lf", &islem);
+        (void)scanf_s("%lf", &islem);
         musteri.balans += islem;
         printf("%-6d %-16s %-11s %10.2f\n", musteri.musNum, musteri.soyad,
             musteri.ad, musteri.balans);
@@ -115,7 +115,7 @@ void silKayit(FILE* fPtr) {
     int hesapNum;
 
     printf("Silinecek hesap numarasını giriniz (1-100) : ");
-    scanf("%d", &hesapNum);
+    (void)scanf_s("%d", &hesapNum);
     fseek(fPtr, (hesapNum - 1) * sizeof(struct musData), SEEK_SET);
     fread(&musteri, sizeof(struct musData), 1, fPtr);
     if (musteri.musNum == 0) {
@@ -128,4 +128,25 @@ void silKayit(FILE* fPtr) {
     }
 
     
+}
+
+void yeniKayit(FILE* fPtr) {
+    struct musData musteri = { 0,"", "", 0.0 };
+    int hesapNum;
+    printf("Yeni hesap no gir (1-100): ");
+    (void)scanf("%d", &hesapNum);
+    fseek(fPtr, (hesapNum - 1) * sizeof(struct musData), SEEK_SET);
+    fread(&musteri, sizeof(struct musData), 1, fPtr);
+    if (musteri.musNum != 0) {
+        printf("Hesap #%d bir hesaba sahiptir. Yeni no gir \n", musteri.musNum);
+
+    }
+
+    else {
+        printf("Soyadı, adı, balansı giriniz. \n");
+        (void)scanf("%s %s %lf", &musteri.soyad, &musteri.ad, &musteri.balans);
+        musteri.musNum = hesapNum;
+        fseek(fPtr, (musteri.musNum - 1) * sizeof(struct musData), SEEK_SET);
+        fwrite(&musteri, sizeof(struct musData), 1, fPtr);
+    }
 }

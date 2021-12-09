@@ -1,0 +1,3 @@
+Hesap  Soyadý           Adý             Balans 
+15     Akca             Ogulcan        1000.00
+15     Akca             Ogulcan        1000.00
